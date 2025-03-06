@@ -26,7 +26,7 @@ def cat_index(request):
     # 'cats/index.html, django is looking in the templates always! 
     # looking inside a cats folder(resource)/index.html
 
-    # use the Cat model to get all the rows from the cats table!
+    # use e Cat model to get all the rows from the cats table!
     cats = Cat.objects.all()
 
     return render(request, 'cats/index.html', {'cats': cats})
