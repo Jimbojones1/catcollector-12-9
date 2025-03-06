@@ -9,4 +9,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('cats/', views.cat_index, name='cats-index'),
+    # cat_id is the name of our param
+    path('cats/<int:cat_id>/', views.cat_detail, name='cats-detail'),
 ]

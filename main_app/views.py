@@ -7,6 +7,19 @@ from .models import Cat
 # controller FILE, in DJANGO we call them VIEW FUNCTIONS
 # ALL THE VIEW FUNCTIONS GO IN THIS FILE
 
+# cat_id comes from the route path (thats our param)
+# path('cats/<int:cat_id>/', views.cat_detail, name='cats-detail'),
+def cat_detail(request, cat_id):
+
+    # use our model to find the row that matches cat_id in the params from 
+    # cats table
+    cat = Cat.objects.get(id=cat_id)
+
+    # cats/detail.html should be in templates folder
+    return render(request, 'cats/detail.html', {'cat': cat})
+    
+
+
 
 def cat_index(request):
     # injecting a cats variable whose value is the array of cats on line 25
