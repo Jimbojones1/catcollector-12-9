@@ -1,6 +1,6 @@
 from django.urls import path
 # import all the functions in views file
-# as methods on a view object
+# as methods on a views object
 from . import views
 
 urlpatterns = [
