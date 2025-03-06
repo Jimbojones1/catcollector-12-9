@@ -41,7 +41,7 @@ def cat_index(request):
 def home(request):
 
     # HttpResponse is like res.send in Express
-    return HttpResponse('<h1>Hello from Catcollector</h1>')
+    return render(request, 'home.html')
 
 
 def about(request):

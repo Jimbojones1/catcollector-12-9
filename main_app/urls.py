@@ -8,5 +8,5 @@ urlpatterns = [
     # in the views folder we have home function
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
-    path('cats/', views.cat_index, name='cat-index'),
+    path('cats/', views.cat_index, name='cats-index'),
 ]
