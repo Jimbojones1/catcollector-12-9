@@ -10,7 +10,9 @@ from .models import Cat
 # controller FILE, in DJANGO we call them VIEW FUNCTIONS
 # ALL THE VIEW FUNCTIONS GO IN THIS FILE
 
-
+# reusing the main_app/cat_form template (same as create)
+# but now the template has a cat variable or (object ) variable
+# handling the get and put
 class CatUpdate(UpdateView):
     model = Cat
     # disallow updating the name
