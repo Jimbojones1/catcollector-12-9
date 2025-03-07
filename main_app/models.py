@@ -47,3 +47,7 @@ class Feeding(models.Model):
     def __str__(self):
         # self.get_<propertynamethathasthechoices>_display()
         return f"{self.get_meal_display()} on {self.date}"
+
+    class Meta:
+        # lookup different attributes from docs
+        ordering = ['-date'] # newest feeding first when displayed
