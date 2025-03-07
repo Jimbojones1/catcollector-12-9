@@ -11,4 +11,6 @@ urlpatterns = [
     path('cats/', views.cat_index, name='cats-index'),
     # cat_id is the name of our param
     path('cats/<int:cat_id>/', views.cat_detail, name='cats-detail'),
+    # allow render CBV's as_view()
+    path('cats/create/', views.CatCreate.as_view(), name='cat-create'),
 ]

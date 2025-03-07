@@ -1,11 +1,31 @@
 from django.shortcuts import render
 
+# importing of CBV (class based view)
+from django.views.generic.edit import CreateView
+
 from django.http import HttpResponse
 # Create your views here.
 from .models import Cat
 
 # controller FILE, in DJANGO we call them VIEW FUNCTIONS
 # ALL THE VIEW FUNCTIONS GO IN THIS FILE
+
+
+
+
+
+
+
+# handles both the GET AND POST request
+class CatCreate(CreateView):
+    # what model should this cbv use
+    model = Cat
+    # what inputs do you want to include on the form 
+    # array of the keys on your model, which will be inputs on your form
+    # fields = ['name', 'breed', 'description']
+    fields = '__all__' # include all the keys on the Cat model in the form
+    # success_url = '/cats/'
+
 
 # cat_id comes from the route path (thats our param)
 # path('cats/<int:cat_id>/', views.cat_detail, name='cats-detail'),

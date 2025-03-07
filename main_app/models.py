@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 
 # models.Model we inherit from which will give our models the ability to perform 
@@ -10,6 +10,16 @@ class Cat(models.Model):
     breed = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     age = models.IntegerField()
+    
+    def get_absolute_url(self):
+        # self.id refers to the cat your just created
+        # refers to the primary key on the row you just added 
+        # to the cats table
+        # reverse takes the name of url
+        # cat_id is coming from the param name in cats-d
+        return reverse('cats-detail', kwargs={'cat_id': self.id})
+
+
 
     def __str__(self):
         return self.name
