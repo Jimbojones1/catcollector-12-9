@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # importing of CBV (class based view)
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.http import HttpResponse
 # Create your views here.
@@ -10,6 +10,18 @@ from .models import Cat
 # controller FILE, in DJANGO we call them VIEW FUNCTIONS
 # ALL THE VIEW FUNCTIONS GO IN THIS FILE
 
+
+class CatUpdate(UpdateView):
+    model = Cat
+    # disallow updating the name
+    fields = ['breed', 'description', 'age']
+    # this will use the get_absolute_url on the model to redirect
+    # to the detail page after an update
+
+class CatDelete(DeleteView):
+    model = Cat
+    success_url = '/cats/' # redirect to the index because we just deleted the cat
+    # there is no details anymore
 
 
 

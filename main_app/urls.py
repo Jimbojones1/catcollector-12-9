@@ -13,4 +13,8 @@ urlpatterns = [
     path('cats/<int:cat_id>/', views.cat_detail, name='cats-detail'),
     # allow render CBV's as_view()
     path('cats/create/', views.CatCreate.as_view(), name='cat-create'),
+    # CBV expect the params name to be pk (primary key)
+    path('cats/<int:pk>/update/', views.CatUpdate.as_view(), name='cat-update'),
+    path('cats/<int:pk>/delete/', views.CatDelete.as_view(), name='cat-delete'),
+     
 ]
