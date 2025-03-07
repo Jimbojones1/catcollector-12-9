@@ -7,6 +7,8 @@ from django.http import HttpResponse
 # Create your views here.
 from .models import Cat
 
+from .forms import FeedingForm
+
 # controller FILE, in DJANGO we call them VIEW FUNCTIONS
 # ALL THE VIEW FUNCTIONS GO IN THIS FILE
 
@@ -48,9 +50,10 @@ def cat_detail(request, cat_id):
     # use our model to find the row that matches cat_id in the params from 
     # cats table
     cat = Cat.objects.get(id=cat_id)
-
+    feeding_form = FeedingForm()# creates an instance of form
+    
     # cats/detail.html should be in templates folder
-    return render(request, 'cats/detail.html', {'cat': cat})
+    return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form})
     
 
 
