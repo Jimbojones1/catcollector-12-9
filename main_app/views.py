@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # importing of CBV (class based view)
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -51,10 +51,28 @@ def cat_detail(request, cat_id):
     # cats table
     cat = Cat.objects.get(id=cat_id)
     feeding_form = FeedingForm()# creates an instance of form
-    
+
     # cats/detail.html should be in templates folder
     return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form})
     
+
+# cat_id comes from the params in urls.py file for the add_feeding
+def add_feeding(request, cat_id):
+    # create a modelForm instance with the data from the post request(form submission)
+    # in express req.body, in django request.POST
+    form = FeedingForm(request.POST)
+    # validate the Form and add the cat_id to the form
+    if form.is_valid():
+        # create in memory instance (on the server)
+        new_feeding = form.save(commit=False)
+        # assign the cat_id to the form for the cat_id column in psql
+        new_feeding.cat_id = cat_id
+        # save it (Which adds the new row to the feeding table in psql)
+        new_feeding.save()
+
+   #import redirect at the top, cat_id on the left is the param name, right is value 
+    return redirect('cats-detail', cat_id=cat_id)
+
 
 
 

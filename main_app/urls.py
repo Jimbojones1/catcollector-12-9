@@ -16,5 +16,7 @@ urlpatterns = [
     # CBV expect the params name to be pk (primary key)
     path('cats/<int:pk>/update/', views.CatUpdate.as_view(), name='cat-update'),
     path('cats/<int:pk>/delete/', views.CatDelete.as_view(), name='cat-delete'),
+    # 1 to many creation of a feeding (handling the post request from the feeding form)
+    path('cats/<int:cat_id>/add_feeding/', views.add_feeding, name='add-feeding'),
      
 ]

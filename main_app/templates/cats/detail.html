@@ -41,7 +41,7 @@
         </div>
 
         <h3>Add a Feeding</h3>
-        <form action="" method="post" class="subsection-content">
+        <form action="{% url 'add-feeding' cat.id %}" method="post" class="subsection-content">
             {% csrf_token %}
             {{ feeding_form.as_p }}
             <button type="submit" class="btn submit">Add Feeding</button>
