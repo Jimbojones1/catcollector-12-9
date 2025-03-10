@@ -10,9 +10,15 @@ from .models import Cat, Toy
 from .forms import FeedingForm
 
 
-
-
-
+# cat_id and toy_id match the params in urls.py
+def associate_toy(request, cat_id, toy_id):
+    # find the cat then add the toy_id to the cats toys
+    cat = Cat.objects.get(id=cat_id)
+    # creates the association
+    cat.toys.add(toy_id)
+    # optional one liner
+    # Cat.objects.get(id=cat_id).toys.add(toy_id)
+    return redirect('cats-detail', cat_id=cat_id)
 
 # Other view functions above
 
@@ -20,7 +26,11 @@ class ToyCreate(CreateView):
     model = Toy
     fields = '__all__'
 
-
+# What template? templates/<name_of_the_app>/<model_name>_list.html
+# templates/main_app/toy_list.html
+# whats the variable for all toys in that template?
+# <model_name>_list, object_list
+# toy_list
 class ToyList(ListView):
     model = Toy
 
@@ -68,7 +78,7 @@ class CatCreate(CreateView):
     # what inputs do you want to include on the form 
     # array of the keys on your model, which will be inputs on your form
     # fields = ['name', 'breed', 'description']
-    fields = '__all__' # include all the keys on the Cat model in the form
+    fields = ['name', 'breed', 'description', 'age'] # '__all__ 'include all the keys on the Cat model in the form
     # success_url = '/cats/'
 
 
@@ -81,8 +91,11 @@ def cat_detail(request, cat_id):
     cat = Cat.objects.get(id=cat_id)
     feeding_form = FeedingForm()# creates an instance of form
 
+    # Grab all the toys (Select all the rows from the toys table)
+    toys = Toy.objects.all()
+
     # cats/detail.html should be in templates folder
-    return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form})
+    return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form, 'toys': toys})
     
 
 # cat_id comes from the params in urls.py file for the add_feeding
