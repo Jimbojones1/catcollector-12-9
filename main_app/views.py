@@ -10,6 +10,15 @@ from .models import Cat, Toy
 from .forms import FeedingForm
 
 
+def remove_toy(request, cat_id, toy_id):
+    # Look up the cat
+    cat = Cat.objects.get(id=cat_id)
+    # Look up the toy
+    cat.toys.remove(toy_id)
+    # Remove the toy from the cat
+    return redirect('cats-detail', cat_id=cat.id)
+
+
 # cat_id and toy_id match the params in urls.py
 def associate_toy(request, cat_id, toy_id):
     # find the cat then add the toy_id to the cats toys
@@ -91,11 +100,15 @@ def cat_detail(request, cat_id):
     cat = Cat.objects.get(id=cat_id)
     feeding_form = FeedingForm()# creates an instance of form
 
-    # Grab all the toys (Select all the rows from the toys table)
-    toys = Toy.objects.all()
+    # # Grab all the toys (Select all the rows from the toys table)
+    # toys = Toy.objects.all()
+    # grab all the toys the cat does not have
+    # cat.toys.all().values_list('id') === [1, 3, 4]
+    # django field looks ups <- google this for the syntax options
+    toys_cat_doesnt_have = Toy.objects.exclude(id__in = cat.toys.all().values_list('id'))
 
     # cats/detail.html should be in templates folder
-    return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form, 'toys': toys})
+    return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form, 'toys': toys_cat_doesnt_have})
     
 
 # cat_id comes from the params in urls.py file for the add_feeding

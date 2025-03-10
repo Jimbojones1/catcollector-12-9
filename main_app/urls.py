@@ -25,6 +25,7 @@ urlpatterns = [
     path('toys/<int:pk>/', views.ToyDetail.as_view(), name='toy-detail'),
     path('toys/', views.ToyList.as_view(), name='toy-index'),
     path('cats/<int:cat_id>/associate-toy/<int:toy_id>/', views.associate_toy, name='associate-toy'),
+    path('cats/<int:cat_id>/remove-toy/<int:toy_id>/', views.remove_toy, name='remove-toy'),
 
      
 ]
