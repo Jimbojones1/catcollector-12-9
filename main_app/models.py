@@ -51,3 +51,16 @@ class Feeding(models.Model):
     class Meta:
         # lookup different attributes from docs
         ordering = ['-date'] # newest feeding first when displayed
+
+
+
+# Add the Toy model
+class Toy(models.Model):
+    name = models.CharField(max_length=50)
+    color = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('toy-detail', kwargs={'pk': self.id})

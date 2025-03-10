@@ -2,12 +2,41 @@ from django.shortcuts import render, redirect
 
 # importing of CBV (class based view)
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
+from django.views.generic import ListView, DetailView # add these 
 from django.http import HttpResponse
 # Create your views here.
-from .models import Cat
+from .models import Cat, Toy
 
 from .forms import FeedingForm
+
+
+
+
+
+
+# Other view functions above
+
+class ToyCreate(CreateView):
+    model = Toy
+    fields = '__all__'
+
+
+class ToyList(ListView):
+    model = Toy
+
+class ToyDetail(DetailView):
+    model = Toy
+
+
+class ToyUpdate(UpdateView):
+    model = Toy
+    fields = ['name', 'color']
+
+class ToyDelete(DeleteView):
+    model = Toy
+    success_url = '/toys/'
+
+
 
 # controller FILE, in DJANGO we call them VIEW FUNCTIONS
 # ALL THE VIEW FUNCTIONS GO IN THIS FILE
