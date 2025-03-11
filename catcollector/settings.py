@@ -118,6 +118,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# for authorizatin redirect url for our decorators and mixin
+LOGIN_URL = 'home'
+
+
 # define this variable to specify where we want the user to go after they login
 LOGIN_REDIRECT_URL = 'cats-index' # <- name of a route!
 # where we want to go after we logout

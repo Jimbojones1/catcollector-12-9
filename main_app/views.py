@@ -10,6 +10,37 @@ from .models import Cat, Toy
 
 from .forms import FeedingForm
 
+## AUTHORIZATION
+from django.contrib.auth.decorators import login_required # function based views
+from django.contrib.auth.mixins import LoginRequiredMixin # for CBVS
+
+### Imports for the signup!
+from django.contrib.auth import login # login function
+from django.contrib.auth.forms import UserCreationForm # form instance for creating user
+
+
+def signup(request):
+    # view functions can handle multiple http requests
+    error_message = ''
+    # handle the post request (submission of the form)
+    if request.method == "POST":
+        # create a user form object that includes the data from the submitted form
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # save the form and create the user 
+            # adds a row to the user table
+            user = form.save()
+            # login in the user 
+            login(request, user)
+            # this creates the request.user ^ in all our view functions
+
+            return redirect('cats-index') # cats-index is the name of a path in urls.py
+        else: 
+            error_message = "Invalid sign up - try again"
+    # handling the get request 
+    form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form, 'error_message': error_message})
+
 
 def remove_toy(request, cat_id, toy_id):
     # Look up the cat
@@ -32,7 +63,7 @@ def associate_toy(request, cat_id, toy_id):
 
 # Other view functions above
 
-class ToyCreate(CreateView):
+class ToyCreate(LoginRequiredMixin, CreateView):
     model = Toy
     fields = '__all__'
 
@@ -41,14 +72,14 @@ class ToyCreate(CreateView):
 # whats the variable for all toys in that template?
 # <model_name>_list, object_list
 # toy_list
-class ToyList(ListView):
+class ToyList(LoginRequiredMixin, ListView):
     model = Toy
 
-class ToyDetail(DetailView):
+class ToyDetail(LoginRequiredMixin, DetailView):
     model = Toy
 
 
-class ToyUpdate(UpdateView):
+class ToyUpdate(LoginRequiredMixin, UpdateView):
     model = Toy
     fields = ['name', 'color']
 
@@ -90,10 +121,19 @@ class CatCreate(CreateView):
     # fields = ['name', 'breed', 'description']
     fields = ['name', 'breed', 'description', 'age'] # '__all__ 'include all the keys on the Cat model in the form
     # success_url = '/cats/'
+    def form_valid(self, form):
+        # this is a place where you can add things to the form once it was submitted to the
+        # server
+
+        # assign the logged in user to the form (instance)that was submitted to the server
+        form.instance.user = self.request.user # self.request.user is the logged in user! 
+        # let the form add the new to the database now!
+        return super().form_valid(form)
 
 
 # cat_id comes from the route path (thats our param)
 # path('cats/<int:cat_id>/', views.cat_detail, name='cats-detail'),
+@login_required # decorator - just a function that is called right before another function (think middleware in express)
 def cat_detail(request, cat_id):
 
     # use our model to find the row that matches cat_id in the params from 
@@ -113,6 +153,7 @@ def cat_detail(request, cat_id):
     
 
 # cat_id comes from the params in urls.py file for the add_feeding
+@login_required
 def add_feeding(request, cat_id):
     # create a modelForm instance with the data from the post request(form submission)
     # in express req.body, in django request.POST
@@ -131,14 +172,21 @@ def add_feeding(request, cat_id):
 
 
 
-
+@login_required
 def cat_index(request):
     # injecting a cats variable whose value is the array of cats on line 25
     # 'cats/index.html, django is looking in the templates always! 
     # looking inside a cats folder(resource)/index.html
 
     # use e Cat model to get all the rows from the cats table!
-    cats = Cat.objects.all()
+    # show EVERYONES CATS
+
+    # cats = Cat.objects.all()
+
+    ### SHOW LOGGED IN USERS CATS
+    # request.user is the logged in user
+    # user in a key on the cats model
+    cats = Cat.objects.filter(user=request.user)
 
     return render(request, 'cats/index.html', {'cats': cats})
 
