@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # setup the endpoints for our main_app urls
     # '' === localhost:8000
-    path('', include('main_app.urls'))
+    path('', include('main_app.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

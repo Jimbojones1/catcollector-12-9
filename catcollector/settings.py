@@ -118,6 +118,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# define this variable to specify where we want the user to go after they login
+LOGIN_REDIRECT_URL = 'cats-index' # <- name of a route!
+# where we want to go after we logout
+LOGOUT_REDIRECT_URL = 'home' # <- name of a route 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

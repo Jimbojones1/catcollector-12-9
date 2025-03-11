@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     # localhost:8000, 
     # in the views folder we have home function
-    path('', views.home, name='home'),
+    path('', views.Home.as_view(), name='home'),
     path('about/', views.about, name='about'),
     path('cats/', views.cat_index, name='cats-index'),
     # cat_id is the name of our param

@@ -1,5 +1,8 @@
 from django.db import models
 from django.urls import reverse
+
+#import the User model
+from django.contrib.auth.models import User
 # Create your models here.
 
 # Add the Toy model
@@ -22,6 +25,8 @@ class Cat(models.Model):
     breed = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     age = models.IntegerField()
+    # django adds the _id for us!
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # add our many to many relationship
     toys = models.ManyToManyField(Toy)
 

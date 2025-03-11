@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 
+from django.contrib.auth.views import LoginView
 # importing of CBV (class based view)
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView # add these 
@@ -141,10 +142,14 @@ def cat_index(request):
 
     return render(request, 'cats/index.html', {'cats': cats})
 
-def home(request):
+# def home(request):
 
-    # HttpResponse is like res.send in Express
-    return render(request, 'home.html')
+#     # HttpResponse is like res.send in Express
+#     return render(request, 'home.html')
+
+class Home(LoginView):
+    # specify a template
+    template_name = 'home.html'
 
 
 def about(request):
